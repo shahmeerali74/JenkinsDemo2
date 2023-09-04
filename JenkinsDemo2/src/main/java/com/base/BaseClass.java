@@ -34,7 +34,7 @@ public class BaseClass {
         }
 
         driver.manage().window().maximize();
-        driver.get(System.getProperty("url", "https://app.mnhomelabs.com/"));
+        driver.get(System.getProperty("url", "192.168.1.118:5000"));
     }
 
     @AfterMethod
