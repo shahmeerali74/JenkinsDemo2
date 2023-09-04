@@ -12,30 +12,33 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class BaseClass {
     WebDriver driver;
     
-    @BeforeMethod
-    public void setup() {
-        String browser = System.getProperty("browser", "Chrome").toLowerCase();
+@BeforeMethod
+public void setup() {
+    System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver.exe");
+    
+    String browser = System.getProperty("browser", "Chrome").toLowerCase();
 
-        switch (browser) {
-            case "chrome":
-                WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
-                break;
-            case "firefox":
-                WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
-                break;
-            case "ie":
-                WebDriverManager.iedriver().setup();
-                driver = new InternetExplorerDriver();
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid browser: " + browser);
-        }
-
-        driver.manage().window().maximize();
-        driver.get(System.getProperty("url", "https://app.mnhomelabs.com/"));
+    switch (browser) {
+        case "chrome":
+            WebDriverManager.chromedriver().setup();
+            driver = new ChromeDriver();
+            break;
+        case "firefox":
+            WebDriverManager.firefoxdriver().setup();
+            driver = new FirefoxDriver();
+            break;
+        case "ie":
+            WebDriverManager.iedriver().setup();
+            driver = new InternetExplorerDriver();
+            break;
+        default:
+            throw new IllegalArgumentException("Invalid browser: " + browser);
     }
+
+    driver.manage().window().maximize();
+    driver.get(System.getProperty("url", "https://app.mnhomelabs.com/"));
+}
+
 
     @AfterMethod
     public void tearDown() {
