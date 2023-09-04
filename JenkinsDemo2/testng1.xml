@@ -5,5 +5,5 @@
     <classes>
       <class name="com.test.SampleTest"/>
     </classes>
-  </test> <!-- Test -->
-</suite> <!-- Suite -->
+  </test>   <!-- Test -->
+</suite>    <!-- Suite -->
