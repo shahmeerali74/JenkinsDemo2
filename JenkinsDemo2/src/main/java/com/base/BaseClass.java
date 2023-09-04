@@ -10,28 +10,37 @@ import org.testng.annotations.BeforeMethod;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseClass {
-	WebDriver driver;
-	
-	@BeforeMethod
-	public void setup() {
-		if (System.getProperty("browser").equalsIgnoreCase("Chrome")) {
-			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
-		} else if (System.getProperty("browser").equalsIgnoreCase("Firefox")) {
-			WebDriverManager.firefoxdriver().setup();
-			driver = new FirefoxDriver();
-		} else if (System.getProperty("browser").equalsIgnoreCase("IE")) {
-			WebDriverManager.iedriver().setup();
-			driver = new InternetExplorerDriver();
-		}
-		driver.manage().window().maximize();
-		driver.get(System.getProperty("url"));
-			driver.get("https://www.google.com/");
-			driver.manage().window().maximize();
-	}	
-	@AfterMethod
-	public void tearDown() {
-			driver.close();
-	}	
+    WebDriver driver;
+    
+    @BeforeMethod
+    public void setup() {
+        String browser = System.getProperty("browser", "Chrome").toLowerCase();
 
+        switch (browser) {
+            case "chrome":
+                WebDriverManager.chromedriver().setup();
+                driver = new ChromeDriver();
+                break;
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
+                break;
+            case "ie":
+                WebDriverManager.iedriver().setup();
+                driver = new InternetExplorerDriver();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid browser: " + browser);
+        }
+
+        driver.manage().window().maximize();
+        driver.get(System.getProperty("url", "https://www.google.com/"));
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 }
